@@ -328,6 +328,7 @@ The comments are here for explanation, it's not necessary to translate them.
                     <Item id="48005" name="Import plugin(s)..."/>
                     <Item id="48006" name="Import style theme(s)..."/>
                     <Item id="48018" name="Edit Popup ContextMenu"/>
+                    <Item id="48019" name="Edit shortcuts config file"/>
                     <Item id="48009" name="Shortcut Mapper..."/>
                     <Item id="48011" name="Preferences..."/>
                     <Item id="48014" name="Open Plugins Folder..."/>

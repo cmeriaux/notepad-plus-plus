@@ -1604,6 +1604,7 @@ public:
 
 	generic_string getNppPath() const {return _nppPath;};
 	generic_string getContextMenuPath() const {return _contextMenuPath;};
+	generic_string getShortcutsPath() const {return _shortcutsPath;};
 	const TCHAR * getAppDataNppDir() const {return _appdataNppDir.c_str();};
 	const TCHAR * getPluginRootDir() const { return _pluginRootDir.c_str(); };
 	const TCHAR * getPluginConfDir() const { return _pluginConfDir.c_str(); };
