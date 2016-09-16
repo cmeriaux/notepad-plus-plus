@@ -2908,8 +2908,18 @@ void Notepad_plus::command(int id)
 				TEXT("Editing contextMenu"),
 				MB_OK|MB_APPLMODAL);
 		
-			NppParameters *pNppParams = NppParameters::getInstance();
-			BufferID bufID = doOpen((pNppParams->getShortcutsPath()).c_str());
+			NppParameters& pNppParams = NppParameters::getInstance();
+			BufferID bufID = doOpen((pNppParams.getShortcutsPath()).c_str());
+			switchToFile(bufID);
+			break;
+		}
+
+		case IDM_SETTING_EXPORTSHORTCUTS :
+		{
+			NppParameters& pNppParams = NppParameters::getInstance();
+			pNppParams.writeDefaultShortcuts();
+
+			BufferID bufID = doOpen((pNppParams.getDefaultShortcutsPath()).c_str());
 			switchToFile(bufID);
 			break;
 		}

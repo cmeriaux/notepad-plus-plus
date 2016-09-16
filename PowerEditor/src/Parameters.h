@@ -1525,6 +1525,7 @@ public:
 	void writeNonDefaultUDL();
 	void writeNeed2SaveUDL();
 	void writeShortcuts();
+	void writeDefaultShortcuts();
 	void writeSession(const Session & session, const TCHAR *fileName = NULL);
 	bool writeFindHistory();
 
@@ -1605,6 +1606,7 @@ public:
 	generic_string getNppPath() const {return _nppPath;};
 	generic_string getContextMenuPath() const {return _contextMenuPath;};
 	generic_string getShortcutsPath() const {return _shortcutsPath;};
+	generic_string getDefaultShortcutsPath() const {return _defaultShortcutsPath;};
 	const TCHAR * getAppDataNppDir() const {return _appdataNppDir.c_str();};
 	const TCHAR * getPluginRootDir() const { return _pluginRootDir.c_str(); };
 	const TCHAR * getPluginConfDir() const { return _pluginConfDir.c_str(); };
@@ -1779,6 +1781,8 @@ private:
 	std::vector<UdlXmlFileState> _pXmlUserLangsDoc;
 	TiXmlDocument *_pXmlToolIconsDoc = nullptr;
 	TiXmlDocument *_pXmlShortcutDoc = nullptr;
+	TiXmlDocument *_pXmlDefaultShortcutDoc = nullptr;
+	TiXmlDocument *_pXmlSessionDoc = nullptr;
 	TiXmlDocument *_pXmlBlacklistDoc = nullptr;
 
 	TiXmlDocumentA *_pXmlNativeLangDocA = nullptr;
@@ -1863,6 +1867,7 @@ private:
 	Session _session;
 
 	generic_string _shortcutsPath;
+	generic_string _defaultShortcutsPath;
 	generic_string _contextMenuPath;
 	generic_string _sessionPath;
 	generic_string _nppPath;

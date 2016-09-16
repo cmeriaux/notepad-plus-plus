@@ -1453,6 +1453,13 @@ bool NppParameters::load()
 	{
 		_isSelectFgColorEnabled = true;
 	}
+
+	// Write the default shortcuts to a file.
+	_defaultShortcutsPath  = _userPath;
+	PathAppend(_defaultShortcutsPath, TEXT("defaultShortcuts.xml"));
+	_pXmlDefaultShortcutDoc = new TiXmlDocument(_defaultShortcutsPath);
+	//writeDefaultShortcuts();
+
 	return isAllLaoded;
 }
 
@@ -1472,6 +1479,7 @@ void NppParameters::destroyInstance()
 	delete _pXmlNativeLangDocA;
 	delete _pXmlToolIconsDoc;
 	delete _pXmlShortcutDoc;
+	delete _pXmlDefaultShortcutDoc;
 	delete _pXmlContextMenuDocA;
 	delete _pXmlBlacklistDoc;
 	delete 	getInstancePointer();
@@ -3412,6 +3420,74 @@ void NppParameters::writeShortcuts()
 	_pXmlShortcutDoc->SaveFile();
 }
 
+void NppParameters::writeDefaultShortcuts()
+{
+	if (!_pXmlDefaultShortcutDoc)
+	{
+		//do the treatment
+		_pXmlDefaultShortcutDoc = new TiXmlDocument(_defaultShortcutsPath);
+	}
+
+	TiXmlNode *root = _pXmlDefaultShortcutDoc->FirstChild(TEXT("NotepadPlus"));
+	if (!root)
+	{
+		root = _pXmlDefaultShortcutDoc->InsertEndChild(TiXmlElement(TEXT("NotepadPlus")));
+	}
+
+	TiXmlNode *cmdRoot = root->FirstChild(TEXT("InternalCommands"));
+	if (cmdRoot)
+		root->RemoveChild(cmdRoot);
+
+	cmdRoot = root->InsertEndChild(TiXmlElement(TEXT("InternalCommands")));
+	for (size_t i = 0, len = _shortcuts.size(); i < len ; ++i)
+	{
+		CommandShortcut csc = _shortcuts[i];
+		insertCmd(cmdRoot, csc);
+	}
+
+	TiXmlNode *macrosRoot = root->FirstChild(TEXT("Macros"));
+	if (macrosRoot)
+		root->RemoveChild(macrosRoot);
+
+	macrosRoot = root->InsertEndChild(TiXmlElement(TEXT("Macros")));
+
+	for (size_t i = 0, len = _macros.size(); i < len ; ++i)
+	{
+		insertMacro(macrosRoot, _macros[i]);
+	}
+
+	TiXmlNode *userCmdRoot = root->FirstChild(TEXT("UserDefinedCommands"));
+	if (userCmdRoot)
+		root->RemoveChild(userCmdRoot);
+
+	userCmdRoot = root->InsertEndChild(TiXmlElement(TEXT("UserDefinedCommands")));
+
+	for (size_t i = 0, len = _userCommands.size(); i < len ; ++i)
+	{
+		insertUserCmd(userCmdRoot, _userCommands[i]);
+	}
+
+	TiXmlNode *pluginCmdRoot = root->FirstChild(TEXT("PluginCommands"));
+	if (pluginCmdRoot)
+		root->RemoveChild(pluginCmdRoot);
+
+	pluginCmdRoot = root->InsertEndChild(TiXmlElement(TEXT("PluginCommands")));
+	for (size_t i = 0, len = _pluginCommands.size(); i < len ; ++i)
+	{
+		insertPluginCmd(pluginCmdRoot, _pluginCommands[i]);
+	}
+
+	TiXmlNode *scitillaKeyRoot = root->FirstChild(TEXT("ScintillaKeys"));
+	if (scitillaKeyRoot)
+		root->RemoveChild(scitillaKeyRoot);
+
+	scitillaKeyRoot = root->InsertEndChild(TiXmlElement(TEXT("ScintillaKeys")));
+	for (size_t i = 0, len = _scintillaKeyCommands.size(); i < len ; ++i)
+	{
+		insertScintKey(scitillaKeyRoot, _scintillaKeyCommands[i]);
+	}
+	_pXmlDefaultShortcutDoc->SaveFile();
+}
 
 int NppParameters::addUserLangToEnd(const UserLangContainer & userLang, const TCHAR *newName)
 {
