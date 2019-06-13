@@ -157,12 +157,18 @@ public:
 	bool restore(const generic_string& folderName);
 	bool removeFromPluginInfoPtr(PluginUpdateInfo* pluginInfo2hide);
 	void changeColumnName(COLUMN_TYPE index, const TCHAR *name2change);
+	void sortList(boolean name_date, boolean increase);
+	void setSortKey(int key_index);
+	void toggleSortType();
+	void sort();
+	void filterOut(TCHAR *txt2search);
 
 private:
 	std::vector<PluginUpdateInfo*> _list;
 	ListView _ui;
 
-	SORT_TYPE _sortType = DISPLAY_NAME_ALPHABET_ENCREASE;
+	SORT_TYPE _sortType = SORT_ENCREASE;
+	SORT_KEY  _sortKey = SORT_BY_NAME;
 };
 
 enum LIST_TYPE { AVAILABLE_LIST, UPDATES_LIST, INSTALLED_LIST };
